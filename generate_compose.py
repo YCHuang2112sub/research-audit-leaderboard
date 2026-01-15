@@ -120,9 +120,9 @@ def resolve_image(agent: dict, name: str) -> None:
     has_image = "image" in agent
     has_id = "agentbeats_id" in agent
 
-    if has_image and has_id:
-        print(f"Error: {name} has both 'image' and 'agentbeats_id' - use one or the other")
-        sys.exit(1)
+    # if has_image and has_id:
+    #     print(f"Error: {name} has both 'image' and 'agentbeats_id' - use one or the other")
+    #     sys.exit(1)
     elif has_image:
         # if os.environ.get("GITHUB_ACTIONS"):
         #     print(f"Error: {name} requires 'agentbeats_id' for GitHub Actions (use 'image' for local testing only)")
