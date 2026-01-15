@@ -1,4 +1,4 @@
-# Trigger final assessment run v6
+# Trigger final assessment run v6 retry 2
 [green_agent]
 agentbeats_id = "019bc152-03ee-7081-a67d-fd979c2b7d94"
 image = "ghcr.io/ychuang2112sub/reasearch-slide-quality-auditor-a2a-green-agent:vAntigravity"
