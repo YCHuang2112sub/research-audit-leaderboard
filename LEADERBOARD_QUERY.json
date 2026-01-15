@@ -1,0 +1,6 @@
+[
+    {
+        "name": "Overall Consistency",
+        "query": "SELECT\n      id,\n      ROUND(pass_rate,\n        1) AS \"Pass Rate\",\n      ROUND(time_used,\n        1) AS \"Time\",\n      total_tasks AS \"# Tasks\"\n    FROM (\n      SELECT *,\n             ROW_NUMBER() OVER (PARTITION BY id ORDER BY pass_rate DESC, time_used ASC) AS rn\n      FROM (\n        SELECT\n          results.participants.agent AS id,\n          res.pass_rate AS pass_rate,\n          res.time_used AS time_used,\n          SUM(res.max_score) OVER (PARTITION BY results.participants.agent) AS total_tasks\n        FROM results\n        CROSS JOIN UNNEST(results.results) AS r(res)\n      )\n    )\n    WHERE rn = 1\n    ORDER BY \"Pass Rate\" DESC;"
+    }
+]

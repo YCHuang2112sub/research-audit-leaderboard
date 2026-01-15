@@ -1,5 +1,5 @@
-# Agentbeats Leaderboard Template
-> Use this template to create a leaderboard repository for your green agent.
+# Research Slide Quality Auditor Leaderboard
+> This is the official leaderboard for the Research Slide Quality Auditor benchmark.
 
 A leaderboard repository contains:
 - A scenario runner (GitHub Actions workflow) that is used to run assessments with your green agent

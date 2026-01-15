@@ -1,16 +1,25 @@
 [green_agent]
-agentbeats_id = ""
-env = { API_KEY = "${GITHUB_SECRET_NAME}", LOG_LEVEL = "INFO" }
+agentbeats_id = "019bc152-03ee-7081-a67d-fd979c2b7d94"
+env = { GEMINI_API_KEY = "${GEMINI_API_KEY}" }
 
 [[participants]]
-agentbeats_id = ""
-name = "role_1_name"
-env = {}
-
-[[participants]]
-agentbeats_id = ""
-name = "role_2_name"
-env = {}
+agentbeats_id = "019bc14e-8009-7db2-a700-d75a8b3ee4c5"
+name = "agent"
+env = { GEMINI_API_KEY = "${GEMINI_API_KEY}" }
 
 [config]
-# Add your assessment config here
+domain = "research-audit"
+num_tasks = 1
+research_data = {
+    title = "The Future of Agentic AI",
+    slides = [
+        {
+            title = "Autonomous Agents",
+            findings = "Agents in 2025 will be more autonomous than ever..."
+        },
+        {
+            title = "Tool Use and Reasoning",
+            findings = "Advanced reasoning allows agents to use complex tools effectively..."
+        }
+    ]
+}
