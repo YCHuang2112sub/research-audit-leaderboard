@@ -1,4 +1,4 @@
-# Trigger final assessment run v2
+# Trigger final assessment run v3
 [green_agent]
 agentbeats_id = "019bc152-03ee-7081-a67d-fd979c2b7d94"
 env = { GEMINI_API_KEY = "${GEMINI_API_KEY}" }
