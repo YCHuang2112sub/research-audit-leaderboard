@@ -1,0 +1,60 @@
+# Auto-generated from scenario.toml
+
+services:
+  green-agent:
+    build: ../reasearch-slide-quality-auditor-a2a-green-agent
+    platform: linux/amd64
+    container_name: green-agent
+    command: [ "--host", "0.0.0.0", "--port", "9009", "--card-url", "http://green-agent:9009" ]
+    environment:
+      - PYTHONUNBUFFERED=1
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:9009/.well-known/agent-card.json" ]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 30s
+    depends_on:
+      agent:
+        condition: service_healthy
+    networks:
+      - agent-network
+
+  agent:
+    build: ../deep-researcher-a2a-purple-agent
+    platform: linux/amd64
+    container_name: agent
+    command: [ "--host", "0.0.0.0", "--port", "9009", "--card-url", "http://agent:9009" ]
+    environment:
+      - PYTHONUNBUFFERED=1
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - GEMINI_API_KEY_IMAGE_GEN=${GEMINI_API_KEY_IMAGE_GEN}
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:9009/.well-known/agent-card.json" ]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 30s
+    networks:
+      - agent-network
+
+  agentbeats-client:
+    image: ghcr.io/agentbeats/agentbeats-client:v1.0.0
+    platform: linux/amd64
+    container_name: agentbeats-client
+    volumes:
+      - ./a2a-scenario.toml:/app/scenario.toml
+      - ./output:/app/output
+    command: [ "scenario.toml", "output/results.json" ]
+    depends_on:
+      green-agent:
+        condition: service_healthy
+      agent:
+        condition: service_healthy
+    networks:
+      - agent-network
+
+networks:
+  agent-network:
+    driver: bridge
