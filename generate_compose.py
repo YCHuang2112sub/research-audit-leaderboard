@@ -223,6 +223,8 @@ def generate_a2a_scenario(scenario: dict[str, Any]) -> str:
         ]
         if "agentbeats_id" in p:
             lines.append(f"agentbeats_id = \"{p['agentbeats_id']}\"")
+        if "run_id" in p:
+            lines.append(f"run_id = \"{p['run_id']}\"")
         participant_lines.append("\n".join(lines) + "\n")
 
     config_section = scenario.get("config", {})
