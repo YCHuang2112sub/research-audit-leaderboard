@@ -34,7 +34,7 @@ SELECT
 FROM (
   SELECT
     results.participants.agent AS id,
-    json_extract_string(results, '$.participants.run_id') AS run_id,
+    results.participants.run_id AS run_id,
     AVG(res.totalScore) AS avg_total,
     AVG(res.r2n_retention) AS r2n_ret,
     AVG(res.r2n_authenticity) AS r2n_auth,
@@ -47,7 +47,7 @@ FROM (
     AVG(res.n2s_risk) AS n2s_risk
   FROM results
   CROSS JOIN UNNEST(results.results) AS r(res)
-  GROUP BY results.participants.agent, run_id
+  GROUP BY results.participants.agent, results.participants.run_id
 )
 ORDER BY "Total Score" DESC;
 """
