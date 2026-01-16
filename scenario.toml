@@ -6,7 +6,6 @@ env = { GEMINI_API_KEY = "${GEMINI_API_KEY}" }
 [[participants]]
 agentbeats_id = "" # Set participant ID
 name = "agent"
-run_id = "ci-automated-run" # Ensures schema consistency for CI
 image = ""
 env = {}
 
@@ -16,25 +15,3 @@ num_tasks = 1
 research_data = {
     query = "The Future of Agentic AI"
 }
-
-[output]
-leaderboard = """
-SELECT
-  id,
-  run_id AS "Run ID",
-  ROUND(avg_total, 1) AS "Total Score",
-  ROUND(r2n_ret, 1) AS "R2N Ret",
-  ROUND(r2n_auth, 1) AS "R2N Auth",
-  ROUND(r2n_risk, 1) AS "R2N Risk",
-  ROUND(r2s_ret, 1) AS "R2S Ret",
-  ROUND(r2s_auth, 1) AS "R2S Auth",
-  ROUND(r2s_risk, 1) AS "R2S Risk",
-  ROUND(n2s_ret, 1) AS "N2S Ret",
-  ROUND(n2s_auth, 1) AS "N2S Auth",
-  ROUND(n2s_risk, 1) AS "N2S Risk"
-FROM (
-  CROSS JOIN UNNEST(results.results) AS r(res)
-  GROUP BY 1, 2
-)
-ORDER BY "Total Score" DESC;
-"""
