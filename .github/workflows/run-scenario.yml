@@ -71,6 +71,20 @@ jobs:
       - name: Run assessment
         run: docker compose up --timestamps --no-color --exit-code-from agentbeats-client --abort-on-container-exit
 
+      - name: Debug Failure (Print Logs)
+        if: failure()
+        run: |
+          echo "=== DOCKER COMPOSE LOGS ==="
+          docker compose logs || true
+          echo "=== DIRECTORY STRUCTURE ==="
+          ls -R
+          echo "=== OUTPUT DIR ==="
+          ls -l output || true
+          if [ -f output/results.json ]; then
+            echo "=== RESULTS.JSON CONTENT ==="
+            cat output/results.json
+          fi
+
       - name: Record provenance
         run: python record_provenance.py --compose docker-compose.yml --output output/provenance.json
 
