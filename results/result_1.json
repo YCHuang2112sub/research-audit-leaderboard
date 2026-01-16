@@ -1,0 +1,28 @@
+{
+    "participants": {
+        "agent": "019bc14e-8009-7db2-a700-d75a8b3ee4c5"
+    },
+    "results": [
+        {
+            "explicitDescription": "The slide is split into two sections...",
+            "r2n_retention": 80,
+            "r2n_authenticity": 90,
+            "r2n_risk": 10,
+            "r2s_retention": 85,
+            "r2s_authenticity": 88,
+            "r2s_risk": 5,
+            "n2s_retention": 75,
+            "n2s_authenticity": 92,
+            "n2s_risk": 20,
+            "clarityScore": 85,
+            "logicScore": 80,
+            "visualDensity": "Medium",
+            "focalPoint": "Title",
+            "internalAlignment": 90,
+            "narrativeFlow": 85,
+            "totalScore": 85,
+            "narrativeVerdict": "Clear",
+            "critique": "Solid slide with good alignment."
+        }
+    ]
+}

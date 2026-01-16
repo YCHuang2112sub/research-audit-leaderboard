@@ -1,0 +1,28 @@
+{
+    "participants": {
+        "agent": "019bc14e-8009-7db2-a700-d75a8b3ee4c5"
+    },
+    "results": [
+        {
+            "explicitDescription": "The slide features a vibrant visualization...",
+            "r2n_retention": 90,
+            "r2n_authenticity": 95,
+            "r2n_risk": 5,
+            "r2s_retention": 80,
+            "r2s_authenticity": 85,
+            "r2s_risk": 15,
+            "n2s_retention": 88,
+            "n2s_authenticity": 90,
+            "n2s_risk": 10,
+            "clarityScore": 90,
+            "logicScore": 85,
+            "visualDensity": "High",
+            "focalPoint": "Graph",
+            "internalAlignment": 95,
+            "narrativeFlow": 90,
+            "totalScore": 90,
+            "narrativeVerdict": "Excellent",
+            "critique": "Visually stunning and accurate."
+        }
+    ]
+}
