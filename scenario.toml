@@ -15,39 +15,3 @@ num_tasks = 1
 research_data = {
     query = "The Future of Agentic AI"
 }
-
-[output]
-leaderboard = """
-SELECT
-  id,
-  run_id AS "Run ID",
-  ROUND(avg_total, 1) AS "Total Score",
-  ROUND(r2n_ret, 1) AS "R2N Ret",
-  ROUND(r2n_auth, 1) AS "R2N Auth",
-  ROUND(r2n_risk, 1) AS "R2N Risk",
-  ROUND(r2s_ret, 1) AS "R2S Ret",
-  ROUND(r2s_auth, 1) AS "R2S Auth",
-  ROUND(r2s_risk, 1) AS "R2S Risk",
-  ROUND(n2s_ret, 1) AS "N2S Ret",
-  ROUND(n2s_auth, 1) AS "N2S Auth",
-  ROUND(n2s_risk, 1) AS "N2S Risk"
-FROM (
-  SELECT
-    results.participants.agent AS id,
-    results.participants.run_id AS run_id,
-    AVG(res.totalScore) AS avg_total,
-    AVG(res.r2n_retention) AS r2n_ret,
-    AVG(res.r2n_authenticity) AS r2n_auth,
-    AVG(res.r2n_risk) AS r2n_risk,
-    AVG(res.r2s_retention) AS r2s_ret,
-    AVG(res.r2s_authenticity) AS r2s_auth,
-    AVG(res.r2s_risk) AS r2s_risk,
-    AVG(res.n2s_retention) AS n2s_ret,
-    AVG(res.n2s_authenticity) AS n2s_auth,
-    AVG(res.n2s_risk) AS n2s_risk
-  FROM results
-  CROSS JOIN UNNEST(results.results) AS r(res)
-  GROUP BY results.participants.agent, results.participants.run_id
-)
-ORDER BY "Total Score" DESC;
-"""

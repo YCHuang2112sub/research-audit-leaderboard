@@ -39,7 +39,8 @@ try {
 // 3. Construct Payload
 const finalJson = {
     participants: {
-        agent: participantId
+        agent: participantId,
+        run_id: "run-" + Date.now() + "-" + Math.floor(Math.random() * 1000)
     },
     results: auditScores
 };
