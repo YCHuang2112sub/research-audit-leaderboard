@@ -1,13 +1,14 @@
 # Trigger final assessment run v7 (Agent Card Fix)
 [green_agent]
 agentbeats_id = "019bc152-03ee-7081-a67d-fd979c2b7d94"
-image = "ghcr.io/ychuang2112sub/reasearch-slide-quality-auditor-a2a-green-agent:vAntigravity"
+image = "build:../reasearch-slide-quality-auditor-a2a-green-agent"
 env = { GEMINI_API_KEY = "${GEMINI_API_KEY}" }
 
 [[participants]]
 agentbeats_id = "019bc14e-8009-7db2-a700-d75a8b3ee4c5"
 name = "agent"
-env = { GEMINI_API_KEY = "${GEMINI_API_KEY}" }
+image = "build:../deep-researcher-a2a-purple-agent"
+env = { GEMINI_API_KEY = "${GEMINI_API_KEY}", GEMINI_API_KEY_IMAGE_GEN = "${GEMINI_API_KEY_IMAGE_GEN}" }
 
 [config]
 domain = "research-audit"
