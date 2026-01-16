@@ -3,6 +3,16 @@ agentbeats_id = "019bc152-03ee-7081-a67d-fd979c2b7d94" # Set your Green Agent ID
 image = "ghcr.io/ychuang2112sub/reasearch-slide-quality-auditor-a2a-green-agent:main"
 env = { GEMINI_API_KEY = "${GEMINI_API_KEY}" }
 
+[green_agent.output]
+leaderboard = """
+[
+  {
+    "name": "Overall Performance",
+    "query": "SELECT id, ROUND(score, 1) AS \\"Total Score\\", ROUND(flow, 1) AS \\"Flow\\", tasks AS \\"# Audits\\" FROM (SELECT *, ROW_NUMBER() OVER (PARTITION BY id ORDER BY score DESC) AS rn FROM (SELECT results.participants.agent AS id, res.totalScore AS score, res.narrativeFlow AS flow, COUNT(*) OVER (PARTITION BY results.participants.agent) AS tasks FROM results CROSS JOIN UNNEST(results.results) AS r(res))) WHERE rn = 1 ORDER BY \\"Total Score\\" DESC;"
+  }
+]
+"""
+
 [[participants]]
 agentbeats_id = ""
 name = "role_1_name"
