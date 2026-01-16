@@ -1,19 +1,17 @@
 [green_agent]
 agentbeats_id = "019bc152-03ee-7081-a67d-fd979c2b7d94" # Set your Green Agent ID from agentbeats.dev
-image = "build:../reasearch-slide-quality-auditor-a2a-green-agent" # Or ghcr.io/your-username/green-agent
+image = "ghcr.io/ychuang2112sub/reasearch-slide-quality-auditor-a2a-green-agent:main"
 env = { GEMINI_API_KEY = "${GEMINI_API_KEY}" }
 
 [[participants]]
-agentbeats_id = "019bc14e-8009-7db2-a700-d75a8b3ee4c5" # Set participant ID
+agentbeats_id = "" # Set participant ID
 name = "agent"
-image = "build:../deep-researcher-a2a-purple-agent"
-env = { GEMINI_API_KEY = "${GEMINI_API_KEY}", GEMINI_API_KEY_IMAGE_GEN = "${GEMINI_API_KEY_IMAGE_GEN}" }
+image = ""
+env = {}
 
 [config]
 domain = "research-audit"
 num_tasks = 1
 research_data = {
-    query = "The Future of Agentic AI"
-}
     query = "The Future of Agentic AI"
 }
