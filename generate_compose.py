@@ -59,7 +59,7 @@ COMPOSE_TEMPLATE = """# Auto-generated from scenario.toml
 
 services:
   green-agent:
-    image: {green_image}
+    {green_source}
     platform: linux/amd64
     container_name: green-agent
     command: ["--host", "0.0.0.0", "--port", "{green_port}", "--card-url", "http://green-agent:{green_port}"]
@@ -193,8 +193,15 @@ def generate_docker_compose(scenario: dict[str, Any]) -> str:
 
     all_services = ["green-agent"] + participant_names
 
+    green_image_val = green["image"]
+    if green_image_val.startswith("build:"):
+        build_path = green_image_val.split(":", 1)[1]
+        green_source = f"build: {build_path}"
+    else:
+        green_source = f"image: {green_image_val}"
+
     return COMPOSE_TEMPLATE.format(
-        green_image=green["image"],
+        green_source=green_source,
         green_port=DEFAULT_PORT,
         green_env=format_env_vars(green.get("env", {})),
         green_depends=format_depends_on(participant_names),

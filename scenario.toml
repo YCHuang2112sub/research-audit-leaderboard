@@ -1,11 +1,10 @@
-# Trigger final assessment run v7 (Agent Card Fix)
 [green_agent]
-agentbeats_id = "019bc152-03ee-7081-a67d-fd979c2b7d94"
-image = "build:../reasearch-slide-quality-auditor-a2a-green-agent"
+agentbeats_id = "019bc152-03ee-7081-a67d-fd979c2b7d94" # Set your Green Agent ID from agentbeats.dev
+image = "build:../reasearch-slide-quality-auditor-a2a-green-agent" # Or ghcr.io/your-username/green-agent
 env = { GEMINI_API_KEY = "${GEMINI_API_KEY}" }
 
 [[participants]]
-agentbeats_id = "019bc14e-8009-7db2-a700-d75a8b3ee4c5"
+agentbeats_id = "019bc14e-8009-7db2-a700-d75a8b3ee4c5" # Set participant ID
 name = "agent"
 image = "build:../deep-researcher-a2a-purple-agent"
 env = { GEMINI_API_KEY = "${GEMINI_API_KEY}", GEMINI_API_KEY_IMAGE_GEN = "${GEMINI_API_KEY_IMAGE_GEN}" }
@@ -14,15 +13,7 @@ env = { GEMINI_API_KEY = "${GEMINI_API_KEY}", GEMINI_API_KEY_IMAGE_GEN = "${GEMI
 domain = "research-audit"
 num_tasks = 1
 research_data = {
-    title = "The Future of Agentic AI",
-    slides = [
-        {
-            title = "Autonomous Agents",
-            findings = "Agents in 2025 will be more autonomous than ever..."
-        },
-        {
-            title = "Tool Use and Reasoning",
-            findings = "Advanced reasoning allows agents to use complex tools effectively..."
-        }
-    ]
+    query = "The Future of Agentic AI"
+}
+    query = "The Future of Agentic AI"
 }
