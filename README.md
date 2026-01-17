@@ -58,6 +58,14 @@ Include:
 - How scoring/evaluation works
 - Any configurable parameters (like task specification)
 - Requirements for participant agents
+ 
+### 5. Running Locally
+ 
+To run the assessment locally with Docker Compose, use the following command:
+ 
+```bash
+docker compose up --build --abort-on-exit
+```
 
 ### 4. Push your changes
 ```bash
