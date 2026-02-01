@@ -4,7 +4,6 @@ import argparse
 import os
 import re
 import sys
-import json
 from pathlib import Path
 from typing import Any
 
@@ -40,18 +39,18 @@ def fetch_agent_info(agentbeats_id: str) -> dict:
         return response.json()
     except requests.exceptions.HTTPError as e:
         print(f"Error: Failed to fetch agent {agentbeats_id}: {e}")
-        raise
+        sys.exit(1)
     except requests.exceptions.JSONDecodeError:
         print(f"Error: Invalid JSON response for agent {agentbeats_id}")
-        raise
+        sys.exit(1)
     except requests.exceptions.RequestException as e:
-        # Don't print here, let the caller handle it (e.g. use fallback)
-        raise
+        print(f"Error: Request failed for agent {agentbeats_id}: {e}")
+        sys.exit(1)
 
 
 COMPOSE_PATH = "docker-compose.yml"
 A2A_SCENARIO_PATH = "a2a-scenario.toml"
-ENV_PATH = ".env.example"
+ENV_PATH = ".env"
 
 DEFAULT_PORT = 9009
 DEFAULT_ENV_VARS = {"PYTHONUNBUFFERED": "1"}
@@ -121,12 +120,6 @@ endpoint = "http://green-agent:{green_port}"
 {config}"""
 
 
-OFFLINE_IMAGE_MAP = {
-    "019bc152-03ee-7081-a67d-fd979c2b7d94": "ghcr.io/ychuang2112sub/reasearch-slide-quality-auditor-a2a-green-agent:latest",
-    "019bc14e-8009-7db2-a700-d75a8b3ee4c5": "ghcr.io/ychuang2112sub/deep-researcher-a2a-purple-agent:latest"
-}
-
-
 def resolve_image(agent: dict, name: str) -> None:
     """Resolve docker image for an agent, either from 'image' field or agentbeats API."""
     has_image = "image" in agent
@@ -141,18 +134,9 @@ def resolve_image(agent: dict, name: str) -> None:
             sys.exit(1)
         print(f"Using {name} image: {agent['image']}")
     elif has_id:
-        agent_id = agent["agentbeats_id"]
-        try:
-            info = fetch_agent_info(agent_id)
-            agent["image"] = info["docker_image"]
-            print(f"Resolved {name} image: {agent['image']}")
-        except Exception as e:
-            if agent_id in OFFLINE_IMAGE_MAP:
-                agent["image"] = OFFLINE_IMAGE_MAP[agent_id]
-                print(f"Warning: Remote resolution failed for {name}. Using offline fallback: {agent['image']}")
-            else:
-                print(f"Error: Failed to resolve image for {name} ({agent_id}) and no offline fallback found: {e}")
-                sys.exit(1)
+        info = fetch_agent_info(agent["agentbeats_id"])
+        agent["image"] = info["docker_image"]
+        print(f"Resolved {name} image: {agent['image']}")
     else:
         print(f"Error: {name} must have either 'image' or 'agentbeats_id' field")
         sys.exit(1)
@@ -184,13 +168,7 @@ def parse_scenario(scenario_path: Path) -> dict[str, Any]:
 
 def format_env_vars(env_dict: dict[str, Any]) -> str:
     env_vars = {**DEFAULT_ENV_VARS, **env_dict}
-    lines = []
-    for key, value in env_vars.items():
-        str_val = str(value)
-        # Use single quotes for any value that might have special YAML significance
-        # or contains spaces/special characters
-        val = str_val.replace("'", "''")
-        lines.append(f"      {key}: '{val}'")
+    lines = [f"      - {key}={value}" for key, value in env_vars.items()]
     return "\n" + "\n".join(lines)
 
 
@@ -223,10 +201,6 @@ def generate_docker_compose(scenario: dict[str, Any]) -> str:
     green_env_vars = green.get("env", {}).copy()
     if "agentbeats_id" in green:
         green_env_vars["GREEN_AGENT_ID"] = green["agentbeats_id"]
-
-    # Pass name -> id mapping for all participants to the green agent
-    participant_id_map = {p["name"]: p.get("agentbeats_id") for p in participants if "name" in p}
-    green_env_vars["PARTICIPANT_IDS"] = json.dumps(participant_id_map)
 
     return COMPOSE_TEMPLATE.format(
         green_image=green["image"],
