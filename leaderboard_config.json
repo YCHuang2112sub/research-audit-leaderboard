@@ -1,0 +1,6 @@
+[
+    {
+        "name": "ID Test",
+        "query": "SELECT id FROM (SELECT t.participants.agent AS id FROM results t CROSS JOIN UNNEST(t.results) AS _(r)) GROUP BY id ORDER BY id;"
+    }
+]
