@@ -1,0 +1,17 @@
+{
+  "image_digests": {
+    "green-agent": "ghcr.io/ychuang2112sub/reasearch-slide-quality-auditor-a2a-green-agent@sha256:f6261ea7652201be6ebcb32dfa66f380232be0181f3a502dd9ceced9c0efc549",
+    "agent": "ghcr.io/ychuang2112sub/deep-researcher-a2a-purple-agent@sha256:a22b521ac145fa7685b569d790e75b967127ba671863fa2932e54dfe8803b926",
+    "agentbeats-client": "ghcr.io/agentbeats/agentbeats-client@sha256:13dfe3ef4e583a80e7ce2fe3becd0ce3b879841368a7f4fa40b6ebbabeeb014e"
+  },
+  "timestamp": "2026-02-01T06:49:04Z",
+  "github_actions": {
+    "run_url": "https://github.com/YCHuang2112sub/research-audit-leaderboard/actions/runs/21558357499",
+    "run_logs_url": "https://api.github.com/repos/YCHuang2112sub/research-audit-leaderboard/actions/runs/21558357499/logs",
+    "ref": "refs/heads/live-benchmark-trigger",
+    "sha": "39d173474030ec30df59dae1be188bb7b85becab",
+    "repository_url": "https://github.com/YCHuang2112sub/research-audit-leaderboard",
+    "workflow_ref": "YCHuang2112sub/research-audit-leaderboard/.github/workflows/run-scenario.yml@refs/heads/live-benchmark-trigger",
+    "workflow_sha": "39d173474030ec30df59dae1be188bb7b85becab"
+  }
+}
