@@ -4,7 +4,7 @@ import os
 import sys
 
 def main():
-    config_path = 'leaderboard_config.json'
+    config_path = 'LEADERBOARD_QUERY.json'
     # Use the verified absolute path to the DuckDB binary
     duckdb_exe = r'C:\Users\User\AppData\Local\Microsoft\WinGet\Links\duckdb.exe'
     
