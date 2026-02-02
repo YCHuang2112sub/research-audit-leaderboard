@@ -122,16 +122,6 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "⚠️ When creating the PR, UNCHECK 'Allow edits and access to secrets by maintainers' to protect your secrets." >> $GITHUB_STEP_SUMMARY
 
-      - name: Upload Audit Artifacts
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: audit-artifacts-${{ steps.metadata.outputs.unique_name }}
-          path: |
-            results/
-            output/
-            debug_output/
-          retention-days: 7
 
       - name: Cleanup
         if: always()
