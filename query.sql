@@ -1,5 +1,3 @@
--- Definitive query for the new protocol schema with ID-based aggregation
--- Matches the user's requested "Reference Format"
 SELECT
   r.participants.agent AS id,
   ROUND(AVG(r.averages.totalScore), 2) AS Total,
