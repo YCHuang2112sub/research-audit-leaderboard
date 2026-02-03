@@ -1,19 +1,18 @@
--- Definitive query for the new protocol schema
--- Aggregates metrics by the audited agent ID (participants.agent)
+-- Definitive query for the new protocol schema with ID-based aggregation
+-- Matches the user's requested "Reference Format"
 SELECT
-  t.participants.agent AS id,
-  ROUND(AVG(t.averages.totalScore), 2) AS "Total",
-  ROUND(AVG(t.averages.clarityScore), 2) AS "Clarity",
-  ROUND(AVG(t.averages.logicScore), 2) AS "Logic",
-  ROUND(AVG(t.averages.internalAlignment), 2) AS "Align",
-  ROUND(AVG(t.averages.narrativeFlow), 2) AS "Flow",
-  ROUND(AVG(t.averages.r2n_retention), 2) AS "R2N Ret",
-  ROUND(AVG(t.averages.r2n_authenticity), 2) AS "R2N Auth",
-  ROUND(AVG(t.averages.r2s_retention), 2) AS "R2S Ret",
-  ROUND(AVG(t.averages.r2s_authenticity), 2) AS "R2S Auth",
-  ROUND(AVG(t.averages.n2s_retention), 2) AS "N2S Ret",
-  ROUND(AVG(t.averages.n2s_authenticity), 2) AS "N2S Auth"
-FROM read_json_auto('results/*.json') t
-WHERE t.averages IS NOT NULL
+  r.participants.agent AS id,
+  ROUND(AVG(r.averages.totalScore), 2) AS Total,
+  ROUND(AVG(r.averages.clarityScore), 2) AS Clarity,
+  ROUND(AVG(r.averages.logicScore), 2) AS Logic,
+  ROUND(AVG(r.averages.internalAlignment), 2) AS Align,
+  ROUND(AVG(r.averages.narrativeFlow), 2) AS Flow,
+  ROUND(AVG(r.averages.r2n_retention), 2) AS R2N_Ret,
+  ROUND(AVG(r.averages.r2n_authenticity), 2) AS R2N_Auth,
+  ROUND(AVG(r.averages.r2s_retention), 2) AS R2S_Ret,
+  ROUND(AVG(r.averages.r2s_authenticity), 2) AS R2S_Auth,
+  ROUND(AVG(r.averages.n2s_retention), 2) AS N2S_Ret,
+  ROUND(AVG(r.averages.n2s_authenticity), 2) AS N2S_Auth
+FROM (SELECT UNNEST(results) AS r FROM results)
 GROUP BY id
-ORDER BY "Total" DESC, id;
+ORDER BY Total DESC, id;
