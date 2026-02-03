@@ -11,42 +11,21 @@ def main():
         # 2. Second command (-c) - The leaderboard query
         query = """
         SELECT
-          id,
-          ROUND(totalScore, 2) AS "Total",
-          ROUND(clarityScore, 2) AS "Clarity",
-          ROUND(logicScore, 2) AS "Logic",
-          ROUND(internalAlignment, 2) AS "Align",
-          ROUND(narrativeFlow, 2) AS "Flow",
-          ROUND(r2n_retention, 2) AS "R2N Ret",
-          ROUND(r2n_authenticity, 2) AS "R2N Auth",
-          ROUND(r2s_retention, 2) AS "R2S Ret",
-          ROUND(r2s_authenticity, 2) AS "R2S Auth",
-          ROUND(n2s_retention, 2) AS "N2S Ret",
-          ROUND(n2s_authenticity, 2) AS "N2S Auth"
-        FROM (
-          SELECT
-            id, totalScore, clarityScore, logicScore, internalAlignment, narrativeFlow,
-            r2n_retention, r2n_authenticity, r2s_retention, r2s_authenticity, n2s_retention, n2s_authenticity,
-            ROW_NUMBER() OVER (PARTITION BY id ORDER BY totalScore DESC) as rn
-          FROM (
-            SELECT
-              t.participants.agent AS id,
-              t.averages.totalScore,
-              t.averages.clarityScore,
-              t.averages.logicScore,
-              t.averages.internalAlignment,
-              t.averages.narrativeFlow,
-              t.averages.r2n_retention,
-              t.averages.r2n_authenticity,
-              t.averages.r2s_retention,
-              t.averages.r2s_authenticity,
-              t.averages.n2s_retention,
-              t.averages.n2s_authenticity
-            FROM results t
-          )
-        )
-        WHERE rn = 1
-        ORDER BY "Total" DESC;
+          r.participants.agent AS id,
+          ROUND(AVG(r.averages.totalScore), 2) AS Total,
+          ROUND(AVG(r.averages.clarityScore), 2) AS Clarity,
+          ROUND(AVG(r.averages.logicScore), 2) AS Logic,
+          ROUND(AVG(r.averages.internalAlignment), 2) AS Align,
+          ROUND(AVG(r.averages.narrativeFlow), 2) AS Flow,
+          ROUND(AVG(r.averages.r2n_retention), 2) AS R2N_Ret,
+          ROUND(AVG(r.averages.r2n_authenticity), 2) AS R2N_Auth,
+          ROUND(AVG(r.averages.r2s_retention), 2) AS R2S_Ret,
+          ROUND(AVG(r.averages.r2s_authenticity), 2) AS R2S_Auth,
+          ROUND(AVG(r.averages.n2s_retention), 2) AS N2S_Ret,
+          ROUND(AVG(r.averages.n2s_authenticity), 2) AS N2S_Auth
+        FROM (SELECT UNNEST(results) AS r FROM results)
+        GROUP BY id
+        ORDER BY Total DESC, id;
         """
         
         print("Testing CLI-style query sequence (via Python DuckDB)...\n")
