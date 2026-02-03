@@ -1,5 +1,7 @@
+-- Definitive query for the new protocol schema with corrected ID extraction
+-- Extracts researcher ID from top-level participants object
 SELECT
-  r.participants.agent AS id,
+  participants.agent AS id,
   ROUND(AVG(r.averages.totalScore), 2) AS Total,
   ROUND(AVG(r.averages.clarityScore), 2) AS Clarity,
   ROUND(AVG(r.averages.logicScore), 2) AS Logic,
@@ -11,6 +13,6 @@ SELECT
   ROUND(AVG(r.averages.r2s_authenticity), 2) AS R2S_Auth,
   ROUND(AVG(r.averages.n2s_retention), 2) AS N2S_Ret,
   ROUND(AVG(r.averages.n2s_authenticity), 2) AS N2S_Auth
-FROM (SELECT UNNEST(results) AS r FROM results)
+FROM (SELECT participants, UNNEST(results) AS r FROM results)
 GROUP BY id
 ORDER BY Total DESC, id;
